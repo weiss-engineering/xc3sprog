@@ -261,10 +261,11 @@ int ProgAlgSPIFlash::spi_flashinfo_at45(unsigned char *buf)
 {
   byte fbuf[128];
   int idx;
-#define  NUM_AT45  7
+#define  NUM_AT45  8
   struct at45_t at45chips[NUM_AT45] =
       {
           {    3,  264,  256,  512, 128, "AT45DB011"},
+          {    5,  264,  256, 1024, 512, "AT45DB021"},
           {    7,  264,  256, 2048, 256, "AT45DB041"},
           {    9,  264,  256, 4096, 256, "AT45DB801"},
           { 0x0b,  528,  512, 4096, 256, "AT45DB161"},
@@ -289,7 +290,7 @@ int ProgAlgSPIFlash::spi_flashinfo_at45(unsigned char *buf)
   }
   
   if(idx ==  NUM_AT45) {
-    fprintf(stderr, "don't know that flash or status b0rken!\n");
+    fprintf(stderr, "don't know that flash (%02x) or status broken!\n", ((fbuf[0]>>2)&0x0f));
     return -1;
   }
   
